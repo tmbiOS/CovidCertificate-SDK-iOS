@@ -11,7 +11,7 @@
 import Foundation
 
 public struct CertificateHolder {
-    let cose: Cose
+    public let cose: Cose
     let cwt: CWT
     public let keyId: Data
 

@@ -9,12 +9,12 @@ import Foundation
 import Security
 import SwiftCBOR
 
-struct Cose {
+public struct Cose {
     private let type: CoseType
     let protectedHeader: CoseHeader
     let unprotectedHeader: CoseHeader?
-    let payload: CBOR
-    let signature: Data
+    public let payload: CBOR
+    public let signature: Data
 
     var keyId: Data? {
         var keyData: Data?

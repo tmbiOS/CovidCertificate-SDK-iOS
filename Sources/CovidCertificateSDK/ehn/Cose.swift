@@ -139,12 +139,15 @@ public struct Cose {
         enum Algorithm: UInt64 {
             case es256 = 6 // -7
             case ps256 = 36 // -37
+            case ed25519 = 20
         }
 
         init?(fromBytestring cbor: CBOR) {
-            guard let cborMap = cbor.decodeBytestring()?.asMap(),
-                  let algValue = cborMap[Headers.algorithm]?.asUInt64(),
-                  let alg = Algorithm(rawValue: algValue) else {
+            guard let cborMap = cbor.decodeBytestring()?.asMap() else {
+                return nil
+            }
+            let algValue = cborMap[Headers.algorithm]?.asUInt64() ?? Algorithm.ed25519.rawValue
+            guard let alg = Algorithm(rawValue: algValue) else {
                 return nil
             }
             self.init(alg: alg, keyId: cborMap[Headers.keyId]?.asBytes(), rawHeader: cbor)

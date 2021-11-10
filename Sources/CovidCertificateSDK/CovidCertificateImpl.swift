@@ -56,6 +56,31 @@ struct CovidCertificateImpl {
 
         return .success(CertificateHolder(cwt: cwt, cose: cose, keyId: keyId))
     }
+  
+    func makeCose(encodedData: String) -> Result<Cose, CovidCertError> {
+        #if DEBUG
+        print(encodedData)
+        #endif
+        
+        guard let type = getType(from: encodedData),
+              let unprefixedEncodedString = removeScheme(prefix: type.prefix, from: encodedData) else {
+            return .failure(.INVALID_SCHEME_PREFIX)
+        }
+        
+        guard let decodedData = decode(unprefixedEncodedString) else {
+            return .failure(.BASE_45_DECODING_FAILED)
+        }
+        
+        guard let decompressedData = decompress(decodedData) else {
+            return .failure(.DECOMPRESSION_FAILED)
+        }
+        
+        guard let cose = cose(from: decompressedData) else {
+            return .failure(.COSE_DESERIALIZATION_FAILED)
+        }
+        
+        return .success(cose)
+    }
 
     func check(holder: CertificateHolder, forceUpdate: Bool, _ completionHandler: @escaping (CheckResults) -> Void) {
         let group = DispatchGroup()

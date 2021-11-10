@@ -68,6 +68,11 @@ public enum CovidCertificateSDK {
             instancePrecondition()
             return instance.check(holder: holder, forceUpdate: forceUpdate, completionHandler)
         }
+      
+        public static func makeCose(encodedData: String) -> Result<Cose, CovidCertError> {
+            instancePrecondition()
+            return instance.makeCose(encodedData: encodedData)
+        }
     }
 
     public static func restartTrustListUpdate(completionHandler: @escaping () -> Void, updateTimeInterval: TimeInterval) {

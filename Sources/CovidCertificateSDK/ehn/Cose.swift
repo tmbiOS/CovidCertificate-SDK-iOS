@@ -16,7 +16,7 @@ public struct Cose {
     public let payload: CBOR
     public let signature: Data
 
-    var keyId: Data? {
+    public var keyId: Data? {
         var keyData: Data?
         if let unprotectedKeyId = unprotectedHeader?.keyId {
             keyData = Data(unprotectedKeyId)

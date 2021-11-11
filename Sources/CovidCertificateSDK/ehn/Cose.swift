@@ -27,7 +27,7 @@ public struct Cose {
         return keyData
     }
 
-    private var signatureStruct: Data? {
+    public var signatureStruct: Data? {
         guard let header = protectedHeader.rawHeader else {
             return nil
         }

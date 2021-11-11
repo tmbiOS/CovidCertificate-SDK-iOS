@@ -8,7 +8,7 @@
 import Foundation
 import SwiftCBOR
 
-extension CBOR {
+public extension CBOR {
     func unwrap() -> Any? {
         switch self {
         case let .simple(value): return value
@@ -41,15 +41,15 @@ extension CBOR {
         }
     }
 
-    func asUInt64() -> UInt64? {
+    public func asUInt64() -> UInt64? {
         return unwrap() as? UInt64
     }
 
-    func asInt64() -> Int64? {
+    public func asInt64() -> Int64? {
         return unwrap() as? Int64
     }
 
-    func asString() -> String? {
+    public func asString() -> String? {
         return unwrap() as? String
     }
 
@@ -77,7 +77,7 @@ extension CBOR {
         return (rawCose.0, cosePayload)
     }
 
-    func decodeBytestring() -> CBOR? {
+    public func decodeBytestring() -> CBOR? {
         guard let bytestring = asBytes(),
               let decoded = try? CBORDecoder(input: bytestring).decodeItem() else {
             return nil

@@ -183,3 +183,38 @@ public struct Cose {
         }
     }
 }
+
+extension Data {
+  init(hex:String) {
+    let scalars = hex.unicodeScalars
+    var bytes = Array<UInt8>(repeating: 0, count: (scalars.count + 1) >> 1)
+    for (index, scalar) in scalars.enumerated() {
+      var nibble = scalar.hexNibble
+      if index & 1 == 0 {
+        nibble <<= 4
+      }
+      bytes[index >> 1] |= nibble
+    }
+    self = Data(bytes)
+  }
+  
+  var bytes: Array<UInt8> {
+    Array(self)
+  }
+  
+  func toHexString() -> String {
+    self.bytes.toHexString()
+  }
+}
+
+extension Array where Element == UInt8 {
+  func toHexString() -> String {
+    `lazy`.reduce(into: "") {
+      var s = String($1, radix: 16)
+      if s.count == 1 {
+        s = "0" + s
+      }
+      $0 += s
+    }
+  }
+}

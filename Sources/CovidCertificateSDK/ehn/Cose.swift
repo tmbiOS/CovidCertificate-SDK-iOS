@@ -13,8 +13,11 @@ public struct Cose {
     private let type: CoseType
     let protectedHeader: CoseHeader
     let unprotectedHeader: CoseHeader?
-    public let payload: CBOR
+    let payload: CBOR
     public let signature: Data
+    public var ucCert: [CBOR: CBOR] {
+        payload.decodeBytestring()?.asMap()?[-260]?[1]?.asMap()
+    }
 
     public var keyId: Data? {
         var keyData: Data?

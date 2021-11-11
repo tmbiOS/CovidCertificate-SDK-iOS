@@ -139,7 +139,7 @@ public struct Cose {
         enum Algorithm: UInt64 {
             case es256 = 6 // -7
             case ps256 = 36 // -37
-            case ed25519 = 20
+            case ed25519 = 17
         }
 
         init?(fromBytestring cbor: CBOR) {

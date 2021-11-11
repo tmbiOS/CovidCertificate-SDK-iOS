@@ -15,7 +15,7 @@ public struct Cose {
     let unprotectedHeader: CoseHeader?
     let payload: CBOR
     public let signature: Data
-    public var ucCert: [CBOR: CBOR] {
+    public var ucCert: [CBOR: CBOR]? {
         payload.decodeBytestring()?.asMap()?[-260]?[1]?.asMap()
     }
 
